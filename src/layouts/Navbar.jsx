@@ -179,7 +179,7 @@ function ResponsiveAppBar({ data, toggleSidebar, user, data1 }) {
                 name !== "Logout" ? (
                   <MenuItem key={index} onClick={() => {
                     handleCloseUserMenu();
-                    name == "profile" ? navigate('/profile') : navigate(`${link}`)
+                    name == "Profile" ? navigate(`/profile`) : navigate(`${link}`)
                   }}>
                     <Typography sx={{ textAlign: 'center' }}>{name}</Typography>
                   </MenuItem>
