@@ -63,12 +63,18 @@ export const VolunteerRequests = () => {
                           </div>
                           <CardContent>
                               <Typography gutterBottom variant="h5" component="div">
-                                  Lizard
+                                  Description - {d?.description}
                               </Typography>
                               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                  Lizards are a widespread group of squamate reptiles, with over 6,000
-                                  species, ranging across all continents except Antarctica
-                              </Typography><br />
+                                  <h4>From</h4>
+                                  Name : {d?.historyId?.donorId?.name}<br/>
+                                  Address : {d?.historyId?.donorId?.address}
+                              </Typography><br/>
+                              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                  <h4>To</h4>
+                                  Name : {d?.historyId?.ngoId?.name}<br/>
+                                  Address : {d?.historyId?.ngoId?.address}
+                              </Typography><br/>
                               <Button variant="contained" onClick={() => { onAccept(d._id) }}>Accept</Button>
                           </CardContent>
                       </Card>

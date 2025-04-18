@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { toast, ToastContainer, Bounce } from 'react-toastify'
 
 // const pages = ['Products', 'Pricing', 'Blog'];
 // const settings = ['Profile', 'Dashboard', 'Logout'];
@@ -40,6 +41,19 @@ function ResponsiveAppBar({ data, toggleSidebar, user, data1 }) {
 
   return (
     <AppBar position="static">
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Bounce}
+      />
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <IconButton
@@ -66,7 +80,7 @@ function ResponsiveAppBar({ data, toggleSidebar, user, data1 }) {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            WEARSHARE
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -179,7 +193,7 @@ function ResponsiveAppBar({ data, toggleSidebar, user, data1 }) {
                 name !== "Logout" ? (
                   <MenuItem key={index} onClick={() => {
                     handleCloseUserMenu();
-                    name == "Profile" ? navigate(`/profile`) : navigate(`${link}`)
+                    name == "Profile" ? navigate(`/profile`) : name == "Dashboard" ? navigate(`/dashboard`) : `${link}`
                   }}>
                     <Typography sx={{ textAlign: 'center' }}>{name}</Typography>
                   </MenuItem>

@@ -14,6 +14,9 @@ import { VolunteerHome } from "./components/Volunteer/VolunteerHome"
 import { VolunteerRequests } from "./components/Volunteer/Requests"
 import { Accepted } from "./components/Volunteer/Accepted"
 import ProfileView from "./layouts/Profile"
+import { Dashboard } from "./layouts/Dashboard"
+import { AdminDashboard } from "./layouts/AdminDashboard"
+import PrivateRoutes from "./hooks/PrivateRoutes"
 
 
 function App() {
@@ -25,24 +28,32 @@ function App() {
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/profile" element={<ProfileView />} />
+      <Route path="/dashboard" element={<Dashboard />} />
 
-      {/* donor modules */}
-      <Route path="/user" element={<Home />}>
-        <Route path="donations" element={<DonorDonations />} />
-        <Route path="addclothes" element={<AddClothes />} />
-        <Route path="requests" element={<DonorRequests />} />
-      </Route>
+      <Route path="" element={<PrivateRoutes />}>
 
-      {/* ngo modules */}
-      <Route path="/ngo" element={<NgoHome />}>
-        <Route path="donations" element={<NgoDonations />} />
-        <Route path="requests" element={<NgoRequests />} />
-      </Route>
+        {/* admin routes */}
+        <Route path="/admin" element={<AdminDashboard />} />
 
-      {/* volunteer modules */}
-      <Route path="/v" element={<VolunteerHome />}>
-        <Route path="requests" element={<VolunteerRequests />} />
-        <Route path="accepted" element={<Accepted />} />
+        {/* donor modules */}
+        <Route path="/user" element={<Home />}>
+          <Route path="donations" element={<DonorDonations />} />
+          <Route path="addclothes" element={<AddClothes />} />
+          <Route path="requests" element={<DonorRequests />} />
+        </Route>
+
+        {/* ngo modules */}
+        <Route path="/ngo" element={<NgoHome />}>
+          <Route path="donations" element={<NgoDonations />} />
+          <Route path="requests" element={<NgoRequests />} />
+        </Route>
+
+        {/* volunteer modules */}
+        <Route path="/v" element={<VolunteerHome />}>
+          <Route path="requests" element={<VolunteerRequests />} />
+          <Route path="accepted" element={<Accepted />} />
+        </Route>
+
       </Route>
     </Routes>
   )

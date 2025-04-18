@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import ResponsiveAppBar from '../../layouts/Navbar'
 import Sidebar from '../../layouts/Sidebar' // <-- your filter sidebar
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { Box } from '@mui/material'
 
 export const Home = () => {
   const [open, setOpen] = useState(false)
-  const navigate = useNavigate()
   const data = [
     ["AddClothes", "addclothes"],
     ["Donations", "donations"],

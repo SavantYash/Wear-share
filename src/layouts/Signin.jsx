@@ -4,10 +4,11 @@ import { useForm } from 'react-hook-form'
 import { toast, ToastContainer, Bounce } from 'react-toastify'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
+import { Navbar } from "./NavbarIndex";
 
 
 const SignIn = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, formState: { errors } } = useForm()
   const navigate = useNavigate()
 
   const submithandler = async (data) => {
@@ -22,23 +23,27 @@ const SignIn = () => {
       setTimeout(() => {
         toast.success('Login successfull!', {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
+          closeOnClick: true,
+          pauseOnHover: false,
           draggable: true,
           progress: undefined,
           theme: "dark",
           transition: Bounce,
         });
-      }, 100)
+      }, 1000)
 
-      if (res.data.data.role.name === 'donor') {
+      const role = res.data.data.role.name
+
+      if (role === 'donor') {
         navigate('/user')
-      } else if(res.data.data.role.name === 'ngo' ) {
+      } else if (role === 'ngo') {
         navigate('/ngo')
-      }else{
+      } else if(role === 'volunteer'){
         navigate('/v')
+      }else{
+        navigate('/admin')
       }
 
     }
@@ -74,9 +79,10 @@ const SignIn = () => {
     }
   }
 
-    return (
-        <>
-        <ToastContainer
+  return (
+    <>
+      <Navbar />
+      <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -89,18 +95,18 @@ const SignIn = () => {
         theme="light"
         transition={Bounce}
       />
-            {/* <Navbar /> */}
-            <div className="signin-container">
-                <form className="signin-form" onSubmit={handleSubmit(submithandler)}>
-                    <h2>Sign In</h2>
-                    <input type="email" placeholder="Email" {...register('email', validation.email)}/><span style={{ color: 'red' }}>{errors.email?.message}</span>
-                    <input type="password" placeholder="Password" {...register('password', validation.password)}/><span style={{ color: 'red' }}>{errors.password?.message}</span>
-                    <button type="submit">Sign In</button>
-                    <p>New User?<Link to="/signup">Register</Link></p>
-                </form>
-            </div>
-        </>
-    );
+      {/* <Navbar /> */}
+      <div className="signin-container">
+        <form className="signin-form" onSubmit={handleSubmit(submithandler)}>
+          <h2>Sign In</h2>
+          <input type="email" placeholder="Email" {...register('email', validation.email)} /><span style={{ color: 'red' }}>{errors.email?.message}</span>
+          <input type="password" placeholder="Password" {...register('password', validation.password)} /><span style={{ color: 'red' }}>{errors.password?.message}</span>
+          <button type="submit">Sign In</button>
+          <p>New User?<Link to="/signup">Register</Link></p>
+        </form>
+      </div>
+    </>
+  );
 };
 
 export default SignIn;

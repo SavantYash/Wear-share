@@ -75,12 +75,14 @@ export const DonorDonations = () => {
                 </div>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    Lizard
+                    {donation?.description}
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                  </Typography><br />
+                    Size - {donation?.size}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    Address - {donation?.address}
+                  </Typography><br/>
                   <Button variant="contained" onClick={() => { DeleteById(donation._id) }}>Delete</Button>
                 </CardContent>
               </Card>

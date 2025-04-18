@@ -1,65 +1,61 @@
-/* Reset */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  body, html, #root {
-    height: 100%;
-  }
-  
-  .signin-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-  }
-  
-  .signin-form {
-    background: white;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 350px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .signin-form h2 {
-    margin-bottom: 24px;
-    text-align: center;
-    color: #333;
-  }
-  
-  .signin-form input {
-    margin-bottom: 16px;
-    padding: 12px 14px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-  }
-  
-  .signin-form input:focus {
-    border-color: #667eea;
-    outline: none;
-  }
-  
-  .signin-form button {
-    padding: 12px;
-    background-color: #667eea;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .signin-form button:hover {
-    background-color: #5a67d8;
-  }
-  
+.signin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to right, #a7c5eb, #e8d0f3); /* Soft pastel gradient */
+  color: white;
+}
+
+.signin-form {
+  background-color: rgba(255, 255, 255, 0.9); /* Light background with opacity */
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.signin-form input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 16px;
+}
+
+.signin-form button {
+  background-color: #4c6ef5; /* A vibrant blue */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.signin-form button:hover {
+  background-color: #3551d8; /* Darker blue on hover */
+}
+
+.signin-form h2 {
+  margin-bottom: 10px;
+  text-align: center;
+  color: black;
+}
+
+.signin-form p {
+  text-align: center;
+  font-size: 14px;
+  color: black
+}
+
+.signin-form a {
+  color: #4c6ef5; /* A matching blue for links */
+  text-decoration: none;
+  margin-left: 4px;
+}

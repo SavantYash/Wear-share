@@ -11,63 +11,68 @@ export const Accepted = () => {
 
     const [data, setdata] = useState([])
 
-    const getData = async()=>{
-        const res = await axios.get("/transport/get/"+localStorage.getItem('id'))
+    const getData = async () => {
+        const res = await axios.get("/transport/get/" + localStorage.getItem('id'))
         setdata(res.data.data)
         console.log(res.data.data)
     }
 
     useEffect(() => {
-      getData()
+        getData()
     }, [])
 
-  return (
-          data == null ? (
-              <div style={{ textAlign: "center", marginTop: "80px", fontSize: "larger" }}>
-                  not donated yet!<br />Make Donation & feel Happy
-              </div>
-          ) : (
-              <Box
-                  sx={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      justifyContent: 'center',
-                      gap: 3,
-                      padding: 3,
-                  }}
-              >
-                  <ToastContainer
-                      position="top-right"
-                      autoClose={5000}
-                      hideProgressBar={false}
-                      newestOnTop={false}
-                      closeOnClick={false}
-                      rtl={false}
-                      pauseOnFocusLoss
-                      draggable
-                      pauseOnHover
-                      theme="light"
-                      transition={Bounce}
-                  />
-  
-                  {data?.map((d, index) => (
-                      <Card key={index} sx={{ maxWidth: 300 }}>
-                          <div className='overflow-hidden d-flex justify-content-center align-items-center' style={{ height: '23rem' }}>
-                              <img src={d.historyId?.imageURL} className="card-img-top" alt="..." style={{ borderRadius: '6px', marginTop: '15px' }} />
-                          </div>
-                          <CardContent>
-                              <Typography gutterBottom variant="h5" component="div">
-                                  Lizard
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                  Lizards are a widespread group of squamate reptiles, with over 6,000
-                                  species, ranging across all continents except Antarctica
-                              </Typography><br />
-                              <Button variant="contained" onClick={() => { onAccept(d._id) }}>Accept</Button>
-                          </CardContent>
-                      </Card>
-                  ))}
-              </Box>
-          )
-      )
+    return (
+        data == null ? (
+            <div style={{ textAlign: "center", marginTop: "80px", fontSize: "larger" }}>
+                not donated yet!<br />Make Donation & feel Happy
+            </div>
+        ) : (
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    gap: 3,
+                    padding: 3,
+                }}
+            >
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick={false}
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                    transition={Bounce}
+                />
+
+                {data?.map((d, index) => (
+                    <Card key={index} sx={{ maxWidth: 300 }}>
+                        <div className='overflow-hidden d-flex justify-content-center align-items-center' style={{ height: '23rem' }}>
+                            <img src={d.historyId?.imageURL} className="card-img-top" alt="..." style={{ borderRadius: '6px', marginTop: '15px' }} />
+                        </div>
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                Description - {d?.description}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                <h4>From</h4>
+                                Name : {d?.historyId?.donorId?.name}<br />
+                                Address : {d?.historyId?.donorId?.address}
+                            </Typography><br />
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                <h4>To</h4>
+                                Name : {d?.historyId?.ngoId?.name}<br />
+                                Address : {d?.historyId?.ngoId?.address}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                ))}
+            </Box>
+        )
+    )
 }
