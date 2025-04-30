@@ -9,6 +9,7 @@ import { Navbar } from "./NavbarIndex";
 const SignUp = () => {
     const [userSelection, setUserSelection] = useState("donor");
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [registerFlag, setregisterFlag] = useState(false)
     const navigate = useNavigate();
     // const [email, setEmail] = useState("")
 
@@ -18,24 +19,35 @@ const SignUp = () => {
     // }
 
     const submitHandler = async (data) => {
+        setregisterFlag(true)
         data.role = userSelection === "donor"
             ? "67bd4b283f21fec783f8bb4e"
             : userSelection === "ngo"
                 ? "67bd4b3d3f21fec783f8bb50"
                 : "67edb26c77edf64f666aeab1";
 
+        data.roleName = userSelection === "donor"
+            ? "donor"
+            : userSelection === "ngo"
+                ? "ngo"
+                : "volunteer";
+
         const res = await axios.post("/addUser", data);
         console.log(res);
 
         if (res.status === 201) {
-            toast.success('User registered successfully!', {
-                position: "top-right",
-                autoClose: 3000,
-                theme: "dark",
-                transition: Bounce,
-            });
-            navigate('/');
+            setregisterFlag(false)
+            setTimeout(() => {
+                toast.success('User registered successfully!', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+            }, 100)
+            navigate('/signin');
         } else {
+            setregisterFlag(false)
             toast.error(res.data.message, {
                 position: "top-right",
                 autoClose: 3000,
@@ -119,7 +131,7 @@ const SignUp = () => {
                         </>
                     )}
 
-                    <button type="submit">Register</button>
+                    <button type="submit" disabled={registerFlag}>{registerFlag ? 'Processing...' : 'Register'}</button>
                     <p>Already registered? <Link to="/signin">Login</Link></p>
                 </form>
             </div>

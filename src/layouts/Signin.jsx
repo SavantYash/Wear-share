@@ -40,9 +40,9 @@ const SignIn = () => {
         navigate('/user')
       } else if (role === 'ngo') {
         navigate('/ngo')
-      } else if(role === 'volunteer'){
+      } else if (role === 'volunteer') {
         navigate('/v')
-      }else{
+      } else {
         navigate('/admin')
       }
 
@@ -64,11 +64,16 @@ const SignIn = () => {
     }
   }
 
+
   const validation = {
     email: {
       required: {
         value: true,
         message: "*"
+      },
+      pattern: {
+        value: /^[\w.-]+@[\w.-]+\.[A-Za-z]{2,}$/,
+        message: "Invalid email"
       }
     },
     password: {
@@ -103,6 +108,7 @@ const SignIn = () => {
           <input type="password" placeholder="Password" {...register('password', validation.password)} /><span style={{ color: 'red' }}>{errors.password?.message}</span>
           <button type="submit">Sign In</button>
           <p>New User?<Link to="/signup">Register</Link></p>
+          <p><Link to="/forgotpassword">Forgot password?</Link></p>
         </form>
       </div>
     </>

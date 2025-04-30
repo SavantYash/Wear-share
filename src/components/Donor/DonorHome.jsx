@@ -7,7 +7,7 @@ import { Box } from '@mui/material'
 export const Home = () => {
   const [open, setOpen] = useState(false)
   const data = [
-    ["AddClothes", "addclothes"],
+    ["AddClothes", "/user"],
     ["Donations", "donations"],
     ["Requests", "requests"],
   ]

@@ -6,15 +6,21 @@ import CardContent from '@mui/material/CardContent';
 import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export const Accepted = () => {
 
+    const navigate = useNavigate()
     const [data, setdata] = useState([])
 
     const getData = async () => {
-        const res = await axios.get("/transport/get/" + localStorage.getItem('id'))
+        const res = await axios.get("/transport/getv/" + localStorage.getItem('id'))
         setdata(res.data.data)
         console.log(res.data.data)
+    }
+
+    const onTrack = (id) => {
+        navigate("/v/track/"+id)
     }
 
     useEffect(() => {
@@ -52,8 +58,8 @@ export const Accepted = () => {
 
                 {data?.map((d, index) => (
                     <Card key={index} sx={{ maxWidth: 300 }}>
-                        <div className='overflow-hidden d-flex justify-content-center align-items-center' style={{ height: '23rem' }}>
-                            <img src={d.historyId?.imageURL} className="card-img-top" alt="..." style={{ borderRadius: '6px', marginTop: '15px' }} />
+                        <div className='overflow-hidden d-flex justify-content-center align-items-center' style={{ height: '20rem',margin:'10px' }}>
+                            <img src={d.historyId?.imageURL} className="card-img-top" alt="..." style={{ borderRadius: '6px', margin: '15px' }} />
                         </div>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
@@ -69,6 +75,7 @@ export const Accepted = () => {
                                 Name : {d?.historyId?.ngoId?.name}<br />
                                 Address : {d?.historyId?.ngoId?.address}
                             </Typography>
+                            <Button variant="contained" onClick={() => { onTrack(d?._id) }}>Track</Button>
                         </CardContent>
                     </Card>
                 ))}

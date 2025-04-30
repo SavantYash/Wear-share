@@ -19,7 +19,18 @@ export const DonorRequests = () => {
 
     const onAcceptreq = async (id) => {
         const res = await axios.get("/request/update/" + id)
-        console.log(res)
+        res.status === 202 && toast.success('Request accepted!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+        });
+        getAllRequest()
     }
 
     useEffect(() => {
@@ -62,13 +73,10 @@ export const DonorRequests = () => {
                             <img src={donation.imageURL} className="card-img-top" alt="..." style={{ borderRadius: '6px', marginTop: '15px' }} />
                         </div>
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Lizard
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                species, ranging across all continents except Antarctica
-                            </Typography><br />
+
+                            <Typography gutterBottom variant="h6">From : {donation?.ngoId?.name}</Typography>
+                            <Typography gutterBottom variant="h6">{donation?.ngoId?.address}</Typography>
+                            <Typography variant="body2">Number - {donation?.ngoId?.number}</Typography>
                             <Button variant="contained" onClick={() => { onAcceptreq(donation._id) }}>Accept</Button>
                         </CardContent>
                     </Card>

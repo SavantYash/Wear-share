@@ -17,11 +17,13 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { toast, ToastContainer, Bounce } from 'react-toastify';
 
 
 export const Welcome = () => {
 
     const [stats, setStat] = useState([])
+
 
     useEffect(() => {
         setStat([
@@ -70,6 +72,19 @@ export const Welcome = () => {
     return (
         <>
             <Navbar />
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Bounce}
+            />
             <img src={base} style={{ height: '120vh', width: '100%', marginTop: '-20px' }} />
 
             <Box>

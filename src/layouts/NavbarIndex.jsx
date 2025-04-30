@@ -41,7 +41,7 @@ export const Navbar = () => {
     const drawer = (
         <Box sx={{ textAlign: 'center', backgroundColor: '#f8fafc', height: '100%', color: '#0f172a' }}>
             <Typography variant="h6" sx={{ my: 2, fontWeight: 'bold' }}>
-                Cloth Donation
+                WEARSHARE
             </Typography>
             <Divider sx={{ bgcolor: '#475569' }} />
             <List>
@@ -86,7 +86,7 @@ export const Navbar = () => {
                         component="div"
                         sx={{ flexGrow: 1, fontWeight: 'bold' }}
                     >
-                        Cloth Donation
+                        WEARSHARE
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map(([name, link], index) => (

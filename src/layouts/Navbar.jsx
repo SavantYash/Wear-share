@@ -14,6 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { toast, ToastContainer, Bounce } from 'react-toastify'
+import ChatIcon from '@mui/icons-material/Chat';
 
 // const pages = ['Products', 'Pricing', 'Blog'];
 // const settings = ['Profile', 'Dashboard', 'Logout'];
@@ -136,7 +137,7 @@ function ResponsiveAppBar({ data, toggleSidebar, user, data1 }) {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            WEARSHARE
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {data.map(([name, link], index) => {
@@ -166,6 +167,7 @@ function ResponsiveAppBar({ data, toggleSidebar, user, data1 }) {
             )}
 
           </Box>
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

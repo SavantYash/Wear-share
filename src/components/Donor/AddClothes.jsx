@@ -4,13 +4,13 @@ import {
     FormControlLabel, FormHelperText, FormLabel, Grid, InputLabel, MenuItem,
     Radio, RadioGroup, Select, TextField, Typography
 } from '@mui/material';
-import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast, ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useForm, Controller } from 'react-hook-form';
 
 export const AddClothes = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, control } = useForm();
     const [donationFlag, setDonationFlag] = useState(false);
 
     const onSubmit = async (data) => {
@@ -59,10 +59,17 @@ export const AddClothes = () => {
                             <Grid item xs={12}>
                                 <FormControl component="fieldset" error={!!errors.category}>
                                     <FormLabel>Category</FormLabel>
-                                    <RadioGroup row {...register("category", { required: true })}>
-                                        <FormControlLabel value="Male" control={<Radio />} label="Male" />
-                                        <FormControlLabel value="Female" control={<Radio />} label="Female" />
-                                    </RadioGroup>
+                                    <Controller
+                                        name="category"
+                                        control={control}
+                                        rules={{ required: true }}
+                                        render={({ field }) => (
+                                            <RadioGroup row {...field}>
+                                                <FormControlLabel value="Male" control={<Radio />} label="Male" />
+                                                <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                                            </RadioGroup>
+                                        )}
+                                    />
                                     {errors.category && <FormHelperText>Category is required</FormHelperText>}
                                 </FormControl>
                             </Grid>

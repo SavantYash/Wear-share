@@ -81,9 +81,9 @@ const ProfileView = () => {
                         color="inherit"
                         onClick={() =>
                             navigate(
-                                localStorage.getItem("roleName") === "donor"
+                                localStorage.getItem("role") === "donor"
                                     ? "/user"
-                                    : localStorage.getItem("roleName") === "ngo"
+                                    : localStorage.getItem("role") === "ngo"
                                         ? "/ngo"
                                         : "/v"
                             )

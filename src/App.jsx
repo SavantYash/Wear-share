@@ -17,10 +17,34 @@ import ProfileView from "./layouts/Profile"
 import { Dashboard } from "./layouts/Dashboard"
 import { AdminDashboard } from "./layouts/AdminDashboard"
 import PrivateRoutes from "./hooks/PrivateRoutes"
+import { AdminHome } from "./components/Admin/Home"
+import { DonorDisplay } from "./components/Admin/DonorDisplay"
+import { NgoDisplay } from "./components/Admin/NgoDisplay"
+import { Tracking } from "./components/Volunteer/Tracking"
+import { Donations } from "./layouts/Donations"
+import { useEffect, useState } from "react"
+import { UploadPic } from "./components/Ngo/UploadPic"
+import { DetailsOfDelivered } from "./layouts/DetailsOfDelivered"
+import ForgotPassword from "./layouts/ForgotPassword"
+import ResetPassword from "./layouts/ResetPassword"
 
 
 function App() {
   axios.defaults.baseURL = "http://localhost:5000"
+
+  const [userEmail, setUserEmail] = useState(null); // Set up state to store the user's email
+
+  useEffect(() => {
+    axios
+      .get("/getProfileById/" + localStorage.getItem("id"))
+      .then((res) => {
+        setUserEmail(res.data.data.email); // Set userEmail once the data is fetched
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
 
   return (
     <Routes>
@@ -29,31 +53,46 @@ function App() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/profile" element={<ProfileView />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/forgotpassword" element={<ForgotPassword />} />
+      <Route path="/resetpassword/:token" element={<ResetPassword />} />
+
+      {/* <Route
+        path="/chat"
+        element={userEmail ? <SendMessage userEmail={userEmail} /> : <div>Loading...</div>}
+      /> */}
 
       <Route path="" element={<PrivateRoutes />}>
 
         {/* admin routes */}
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin" element={<AdminHome />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="donors" element={<DonorDisplay />} />
+          <Route path="ngos" element={<NgoDisplay />} />
+        </Route>
 
         {/* donor modules */}
         <Route path="/user" element={<Home />}>
-          <Route path="donations" element={<DonorDonations />} />
-          <Route path="addclothes" element={<AddClothes />} />
+          <Route path="donations" element={<Donations />} />
+          <Route index element={<AddClothes />} />
           <Route path="requests" element={<DonorRequests />} />
+          <Route path="details/:id" element={<DetailsOfDelivered />} />
         </Route>
 
         {/* ngo modules */}
         <Route path="/ngo" element={<NgoHome />}>
-          <Route path="donations" element={<NgoDonations />} />
+          <Route index element={<NgoDonations />} />
           <Route path="requests" element={<NgoRequests />} />
+          <Route path="history" element={<Donations />} />
+          <Route path="upload/:id" element={<UploadPic />} />
         </Route>
 
         {/* volunteer modules */}
         <Route path="/v" element={<VolunteerHome />}>
-          <Route path="requests" element={<VolunteerRequests />} />
+          <Route index element={<VolunteerRequests />} />
           <Route path="accepted" element={<Accepted />} />
+          <Route path="track/:id" element={<Tracking onAction={true} />} />
         </Route>
-
+        <Route path="details/:id" element={<DetailsOfDelivered />} />
       </Route>
     </Routes>
   )

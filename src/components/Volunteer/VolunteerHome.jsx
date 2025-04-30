@@ -7,8 +7,8 @@ import { Box } from '@mui/material'
 export const VolunteerHome = () => {
   const [open, setOpen] = useState(false)
   const data = [
-    ["Requests", "requests"],
-    ["Accepted", "accepted"],
+    ["Requests", "/v"],
+    ["Accepted", "accepted"]
   ]
 
   const data1 = [

@@ -1,3 +1,7 @@
+// *****
+// common page for showcase the previous donations for all user via id
+// *****
+
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer, Bounce } from 'react-toastify'
@@ -6,22 +10,25 @@ import CardContent from '@mui/material/CardContent';
 import { Box, Divider } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-export const DonorDonations = () => {
+
+export const Donations = () => {
 
   const [donations, setdonations] = useState([])
   const [history, sethistory] = useState([])
-  
+  const navigate = useNavigate()
   const userId = localStorage.getItem("id")
 
   const getDataByUserId = async () => {
     //for donation collection
-    const res = await axios.get("/donation/getdatabyid/"+userId)
+    const res = await axios.get("/donation/getdatabyid/" + userId)
+    console.log("current",res)
     setdonations(res.data.data)
     //for history collection
-    const res1 = await axios.get("/history/get/"+userId)
+    const res1 = await axios.get("/history/get/" + userId)
     sethistory(res1.data.data)
-    console.log(res1)
+    console.log("past", res1)
   }
 
   const DeleteById = async (id) => {
@@ -55,9 +62,9 @@ export const DonorDonations = () => {
         <Typography variant="body2">Size - {donation?.size}</Typography>
         <Typography variant="body2">Address - {donation?.address}</Typography>
         <Typography variant="body2" sx={{ mt: 1.2 }}>
-          <strong>Status:</strong> {donation?.transport?.status || "N/A"}
+          <strong>Status:</strong> {donation?.status || "N/A"}
         </Typography>
-        <Button
+        {/* <Button
           variant="outlined"
           color="error"
           size="small"
@@ -65,18 +72,60 @@ export const DonorDonations = () => {
           onClick={() => DeleteById(donation._id)}
         >
           Delete
-        </Button>
+        </Button> */}
+        {localStorage.getItem('role') === "ngo" && donation?.status == "Delivered" && (
+            <Box mt={2}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={() => { navigate("/ngo/upload/"+donation?._id)}}
+              >
+                {/* {getActionLabel()} */}
+
+                upload pic
+              </Button>
+            </Box>
+          )}
+          {localStorage.getItem('role') === "donor" && donation?.status == "Delivered" && (
+            <Box mt={2}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={() => { navigate("/user/details/"+donation?._id)}}
+              >
+                {/* {getActionLabel()} */}
+
+                see details
+              </Button>
+            </Box>
+          )}
+          {localStorage.getItem('role') === "volunteer" && donation?.status == "Delivered" && (
+            <Box mt={2}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={() => { navigate("/volunteer/details/"+donation?._id)}}
+              >
+                {/* {getActionLabel()} */}
+
+                see details
+              </Button>
+            </Box>
+          )}
       </CardContent>
     </Card>
   );
 
-  const ongoing = history.filter(
-    d => d?.status === "Pending" || d?.status === "PickedUp"
+  const ongoing = history?.filter(
+    d => d?.status === "Pending" || d?.status === "PickedUp" || d?.status === "Assign Volunteer"
   );
-  const delivered = history.filter(d => d.transport?.status === "Delivered");
+  const delivered = history?.filter(d => d?.status === "Delivered");
 
   return (
-    history.length == 0 ? (
+    history?.length == 0 ? (
       <Typography textAlign="center" fontSize="larger" mt={5}>
         Not donated yet!<br />Make Donation & feel Happy
       </Typography>
@@ -130,7 +179,7 @@ export const DonorDonations = () => {
           {/* Ongoing Section */}
           <Typography variant="h5" gutterBottom>Ongoing Donations</Typography>
           <Box display="flex" flexWrap="wrap" gap={3} mb={4}>
-            {ongoing.length > 0 ? ongoing.map(renderDonationCard) : (
+            {ongoing?.length > 0 ? ongoing?.map(renderDonationCard) : (
               <Typography>No ongoing donations.</Typography>
             )}
           </Box>
@@ -140,9 +189,11 @@ export const DonorDonations = () => {
           {/* Delivered Section */}
           <Typography variant="h5" gutterBottom>Delivered Donations</Typography>
           <Box display="flex" flexWrap="wrap" gap={3}>
-            {delivered.length > 0 ? delivered.map(renderDonationCard) : (
-              <Typography>No delivered donations yet.</Typography>
-            )}
+            {
+              delivered?.length > 0 ? delivered?.map(renderDonationCard) : (
+                <Typography>No delivered donations yet.</Typography>
+              )
+            }
           </Box>
         </>
       </>
