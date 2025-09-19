@@ -5,6 +5,8 @@ import { toast, ToastContainer, Bounce } from 'react-toastify'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { Navbar } from "./NavbarIndex";
+import { post } from "../helper/api_helper";
+import { POST_SIGN_IN } from "../helper/url_helper";
 
 
 const SignIn = () => {
@@ -13,13 +15,13 @@ const SignIn = () => {
 
   const submithandler = async (data) => {
     console.log(data)
-    const res = await axios.post("/signIn", data)
+    const res = await post(POST_SIGN_IN,data)
     console.log(res)
 
     //login success
     if (res.status == 200) {
       localStorage.setItem('id', res.data.data._id)
-      localStorage.setItem('role', res.data.data.role.name)
+      localStorage.setItem('role', res.data.data.roleName)
       setTimeout(() => {
         toast.success('Login successfull!', {
           position: "top-right",
@@ -34,7 +36,7 @@ const SignIn = () => {
         });
       }, 1000)
 
-      const role = res.data.data.role.name
+      const role = res.data.data.roleName
 
       if (role === 'donor') {
         navigate('/user')
