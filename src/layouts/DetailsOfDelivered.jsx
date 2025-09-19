@@ -23,13 +23,14 @@ export const DetailsOfDelivered = () => {
     if (!donation) return <Typography>Loading...</Typography>;
     return (
 
-        donation?.imageURL2 ?
+        donation?.imageUrl2 ?
 
             <Box
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
                 width="100%"
+                marginTop="80px"
             >
                 <Card key={donation?._id} sx={{ maxWidth: 300 }}>
                     <Box
@@ -40,7 +41,7 @@ export const DetailsOfDelivered = () => {
                         height="23rem"
                     >
                         <img
-                            src={donation?.imageURL2}
+                            src={donation?.imageUrl2}
                             alt="donation"
                             className="card-img-top"
                             style={{ borderRadius: '6px', marginTop: '15px', maxHeight: '100%', objectFit: 'cover' }}
@@ -64,7 +65,7 @@ export const DetailsOfDelivered = () => {
                 Pic is not uploaded yet by {donation?.ngoId?.name}
                 You can wait or make an inquiry at below details<br/> Eamil :  {donation?.ngoId?.email}<br/>Number : {donation?.ngoId?.number}
                 <br/>
-                Or report to admin via chatbox for further action
+                Or report to admin
             </Box>
     )
 }

@@ -22,6 +22,7 @@ export const get = async (url, config = {}) => {
 }
 
 export const post = async (url, body={},config={}) => {
+    console.log("yes")
     return axioshelper(
         await axiosInstance.post(url, body, config)
     )

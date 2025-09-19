@@ -1,161 +1,160 @@
 import React, { useState } from 'react';
 import {
-    Box, Button, Card, CardContent, CardHeader, Checkbox, FormControl,
-    FormControlLabel, FormHelperText, FormLabel, Grid, InputLabel, MenuItem,
-    Radio, RadioGroup, Select, TextField, Typography
+  TextField, Button, Typography, Container, Paper,
+  Table, TableHead, TableRow, TableCell, TableBody,
+  FormControl, InputLabel, Select, MenuItem
 } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, removeItem, resetItems } from '../redux/donationSlice';
 import axios from 'axios';
-import { toast, ToastContainer, Bounce } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useForm, Controller } from 'react-hook-form';
 
 export const AddClothes = () => {
-    const { register, handleSubmit, formState: { errors }, control } = useForm();
-    const [donationFlag, setDonationFlag] = useState(false);
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const dispatch = useDispatch();
+  const items = useSelector(state => state.donation.items);
+  const [donationFlag, setDonationFlag] = useState(false);
 
-    const onSubmit = async (data) => {
-        setDonationFlag(true);
-        const formData = new FormData();
-        formData.append("donorId", localStorage.getItem("id"));
-        formData.append("category", data.category);
-        formData.append("size", data.size);
-        formData.append("quantity", data.quantity);
-        formData.append("condition", data.condition);
-        formData.append("description", data.description);
-        formData.append("address", data.address);
-        formData.append("image", data.image[0]);
+  const donationItems = [
+    "T-Shirt", "Shirt", "Pants", "Jacket", "Sweater", "Shoes", "Slippers",
+    "School Bag", "Notebook", "Pen", "Water Bottle", "Bedsheet", "Towel", "Toy"
+  ];
 
-        try {
-            const res = await axios.post("/donation/addwithfile", formData);
-            setDonationFlag(false);
-            if (res.status === 201) {
-                toast.success("Donation posted!", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    transition: Bounce,
-                });
-            }
-        } catch (err) {
-            setDonationFlag(false);
-            toast.error("Failed to post donation.");
-        }
-    };
+  const [selectedItem, setSelectedItem] = useState('');
+  const [quantity, setQuantity] = useState('');
 
-    return (
-        <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 5 }}>
-            <ToastContainer />
-            <Card sx={{ maxWidth: 600, width: '100%' }}>
-                <CardHeader title="Post a Clothing Donation" sx={{ textAlign: 'center' }} />
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <CardContent>
-                        <Grid container spacing={2}>
-                            {/* Image Upload */}
-                            <Grid item xs={12}>
-                                <input type="file" {...register("image", { required: true })} />
-                                {errors.image && <FormHelperText error>Image is required</FormHelperText>}
-                            </Grid>
+  const handleAddItem = () => {
+    if (!selectedItem || !quantity) return;
 
-                            {/* Category */}
-                            <Grid item xs={12}>
-                                <FormControl component="fieldset" error={!!errors.category}>
-                                    <FormLabel>Category</FormLabel>
-                                    <Controller
-                                        name="category"
-                                        control={control}
-                                        rules={{ required: true }}
-                                        render={({ field }) => (
-                                            <RadioGroup row {...field}>
-                                                <FormControlLabel value="Male" control={<Radio />} label="Male" />
-                                                <FormControlLabel value="Female" control={<Radio />} label="Female" />
-                                            </RadioGroup>
-                                        )}
-                                    />
-                                    {errors.category && <FormHelperText>Category is required</FormHelperText>}
-                                </FormControl>
-                            </Grid>
+    const alreadyExists = items.some(item => item.name.toLowerCase() === selectedItem.toLowerCase());
+    if (alreadyExists) {
+      alert("Item already added. You can remove it or change quantity.");
+      return;
+    }
 
-                            {/* Size */}
-                            <Grid item xs={12}>
-                                <FormControl fullWidth error={!!errors.size}>
-                                    <InputLabel id="size-label">Size</InputLabel>
-                                    <Select
-                                        labelId="size-label"
-                                        id="size"
-                                        defaultValue=""
-                                        label="Size"
-                                        {...register("size", { required: true })}
-                                    >
-                                        <MenuItem value="S">S</MenuItem>
-                                        <MenuItem value="M">M</MenuItem>
-                                        <MenuItem value="L">L</MenuItem>
-                                        <MenuItem value="XL">XL</MenuItem>
-                                    </Select>
-                                    {errors.size && <FormHelperText>Size is required</FormHelperText>}
-                                </FormControl>
-                            </Grid>
+    dispatch(addItem({ name: selectedItem, quantity }));
+    setSelectedItem('');
+    setQuantity('');
+  };
 
 
-                            {/* Quantity */}
-                            <Grid item xs={12}>
-                                <TextField
-                                    label="Quantity"
-                                    fullWidth
-                                    type="number"
-                                    {...register("quantity", { required: true })}
-                                    error={!!errors.quantity}
-                                    helperText={errors.quantity && "Quantity is required"}
-                                />
-                            </Grid>
+  const onSubmitForm = async (data) => {
+    setDonationFlag(true)
+    if (!data.image?.[0] || !data.address || items.length === 0) {
+      alert("Please fill all required fields and add at least one item.");
+      return;
+    }
 
-                            {/* Condition */}
-                            <Grid item xs={12}>
-                                <TextField
-                                    label="Condition"
-                                    fullWidth
-                                    {...register("condition")}
-                                />
-                            </Grid>
+    const formData = new FormData();
+    formData.append('donorId', localStorage.getItem('id'));
+    formData.append('image', data.image[0]);
+    formData.append('address', data.address);
+    formData.append('items', JSON.stringify(items));
 
-                            {/* Description */}
-                            <Grid item xs={12}>
-                                <TextField
-                                    label="Description"
-                                    fullWidth
-                                    multiline
-                                    rows={3}
-                                    {...register("description")}
-                                />
-                            </Grid>
+    try {
+      const res = await axios.post("/donation/addwithfile", formData);
+      if (res.status === 201) {
+        dispatch(resetItems());
+        reset();
+      }
+      setDonationFlag(false)
+    } catch (err) {
+      console.error("Submission failed:", err);
+      alert("Failed to post donation");
+      setDonationFlag(false)
+    }
+  };
 
-                            {/* Address */}
-                            <Grid item xs={12}>
-                                <TextField
-                                    label="Address"
-                                    fullWidth
-                                    {...register("address", { required: true })}
-                                    error={!!errors.address}
-                                    helperText={errors.address && "Address is required"}
-                                />
-                            </Grid>
+  return (
+    <Container maxWidth="sm">
+      <Paper elevation={3} sx={{ p: 4, mt: 4 }}>
+        <Typography variant="h5" gutterBottom>Post a Donation</Typography>
 
-                            {/* Terms */}
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox required />}
-                                    label="I agree to the terms and conditions"
-                                />
-                            </Grid>
+        {/* Main Donation Form */}
+        <form onSubmit={handleSubmit(onSubmitForm)}>
+          <Typography>Upload Image *</Typography>
+          <input type="file" accept="image/*" {...register("image", { required: true })} />
+          {errors.image && <Typography color="error">Image is required</Typography>}
 
-                            {/* Submit */}
-                            <Grid item xs={12}>
-                                <Button type="submit" variant="contained" fullWidth disabled={donationFlag}>
-                                    {donationFlag ? 'Posting...' : 'Post Donation'}
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </CardContent>
-                </form>
-            </Card>
-        </Box>
-    );
+          <TextField
+            label="Address *"
+            fullWidth
+            sx={{ mt: 2 }}
+            {...register("address", { required: true })}
+            error={!!errors.address}
+            helperText={errors.address && "Address is required"}
+          />
+
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            type="submit"
+            sx={{ mt: 2 }}
+            disabled={donationFlag}
+          >
+            {donationFlag ? 'Posting...' : 'Post Donation'}
+          </Button>
+        </form>
+
+        {/* Add Item Form */}
+        <Typography variant="h6" sx={{ mt: 4 }}>Add Donation Items</Typography>
+
+        <FormControl fullWidth sx={{ mt: 2 }}>
+          <InputLabel>Item</InputLabel>
+          <Select
+            value={selectedItem}
+            label="Item"
+            onChange={(e) => setSelectedItem(e.target.value)}
+          >
+            {donationItems.map((item, index) => (
+              <MenuItem key={index} value={item}>{item}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <TextField
+          label="Quantity"
+          type="number"
+          fullWidth
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
+          sx={{ mt: 2 }}
+        />
+
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{ mt: 2 }}
+          onClick={handleAddItem}
+        >
+          Add Item
+        </Button>
+
+        {/* Items Table */}
+        {items.length > 0 && (
+          <Table sx={{ mt: 3 }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Item</TableCell>
+                <TableCell>Quantity</TableCell>
+                <TableCell>Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>
+                    <Button color="error" onClick={() => dispatch(removeItem(index))}>Remove</Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </Paper>
+    </Container>
+  );
 };

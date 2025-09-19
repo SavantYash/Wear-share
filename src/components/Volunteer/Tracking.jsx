@@ -52,7 +52,7 @@ export const Tracking = ({onAction}) => {
                     <CardMedia
                         component="img"
                         height="200"
-                        image={data?.historyId?.imageURL}
+                        image={data?.historyId?.imageUrl}
                         alt="Donation"
                         sx={{ objectFit: 'cover', borderRadius: '5px' }}
                     />

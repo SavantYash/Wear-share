@@ -57,15 +57,15 @@ function ResponsiveAppBar({ data, toggleSidebar, user, data1 }) {
       />
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <IconButton
+          {/* <IconButton
             edge="start"
             color="inherit"
             aria-label="menu"
             onClick={toggleSidebar}
           >
             <MenuIcon />
-          </IconButton>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          </IconButton> */}
+          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
           <Typography
             variant="h6"
             noWrap

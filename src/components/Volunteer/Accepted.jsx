@@ -59,7 +59,7 @@ export const Accepted = () => {
                 {data?.map((d, index) => (
                     <Card key={index} sx={{ maxWidth: 300 }}>
                         <div className='overflow-hidden d-flex justify-content-center align-items-center' style={{ height: '20rem',margin:'10px' }}>
-                            <img src={d.historyId?.imageURL} className="card-img-top" alt="..." style={{ borderRadius: '6px', margin: '15px' }} />
+                            <img src={d?.historyId?.imageUrl} className="card-img-top" alt="..." style={{ borderRadius: '6px', margin: '15px' }} />
                         </div>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">

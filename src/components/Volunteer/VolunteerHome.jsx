@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ResponsiveAppBar from '../../layouts/Navbar'
-import Sidebar from '../../layouts/Sidebar' // <-- your filter sidebar
+import Sidebar from '../../layouts/Sidebar' 
 import { Outlet } from 'react-router-dom'
 import { Box } from '@mui/material'
 
@@ -8,7 +8,8 @@ export const VolunteerHome = () => {
   const [open, setOpen] = useState(false)
   const data = [
     ["Requests", "/v"],
-    ["Accepted", "accepted"]
+    ["Accepted", "accepted"],
+    ["Help", "donations"]
   ]
 
   const data1 = [
@@ -24,7 +25,7 @@ export const VolunteerHome = () => {
   return (
     <>
       <ResponsiveAppBar data={data} toggleSidebar={toggleSidebar} data1={data1} user="v"/>
-      <Sidebar open={open} toggleSidebar={toggleSidebar} />
+      
 
       <Box sx={{ marginRight: open ? '240px' : '0', transition: 'margin 0.3s' }}>
         <Outlet />

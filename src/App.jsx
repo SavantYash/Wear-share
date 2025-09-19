@@ -27,6 +27,8 @@ import { UploadPic } from "./components/Ngo/UploadPic"
 import { DetailsOfDelivered } from "./layouts/DetailsOfDelivered"
 import ForgotPassword from "./layouts/ForgotPassword"
 import ResetPassword from "./layouts/ResetPassword"
+import { VolunteerDisplay } from "./components/Admin/VolunteerDisplay"
+import { DonationHistory } from "./components/Admin/DonationHistory"
 
 
 function App() {
@@ -68,6 +70,8 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="donors" element={<DonorDisplay />} />
           <Route path="ngos" element={<NgoDisplay />} />
+          <Route path="volunteer" element={<VolunteerDisplay />} />
+          <Route path="donations" element={<DonationHistory />} />
         </Route>
 
         {/* donor modules */}
@@ -91,8 +95,9 @@ function App() {
           <Route index element={<VolunteerRequests />} />
           <Route path="accepted" element={<Accepted />} />
           <Route path="track/:id" element={<Tracking onAction={true} />} />
+          <Route path="donations" element={<Donations />} />
+          <Route path="details/:id" element={<DetailsOfDelivered />} />
         </Route>
-        <Route path="details/:id" element={<DetailsOfDelivered />} />
       </Route>
     </Routes>
   )

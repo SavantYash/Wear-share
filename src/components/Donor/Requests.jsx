@@ -69,8 +69,8 @@ export const DonorRequests = () => {
 
                 {requests?.map((donation, index) => (
                     <Card key={index} sx={{ maxWidth: 300 }}>
-                        <div className='overflow-hidden d-flex justify-content-center align-items-center' style={{ height: '23rem' }}>
-                            <img src={donation.imageURL} className="card-img-top" alt="..." style={{ borderRadius: '6px', marginTop: '15px' }} />
+                        <div className='overflow-hidden d-flex justify-content-center align-items-center p-1' style={{ height: '23rem' }}>
+                            <img src={donation?.donationId?.imageUrl} className="card-img-top" alt="..." style={{ borderRadius: '6px', marginTop: '15px' }} />
                         </div>
                         <CardContent>
 

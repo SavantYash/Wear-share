@@ -37,7 +37,7 @@ export const UploadPic = () => {
                 transition: Bounce,
             });
         },500)
-            navigate("/ngo/donations")
+            navigate("/ngo")
         } catch (err) {
             console.log(err)
         }

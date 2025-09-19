@@ -70,13 +70,14 @@ export const NgoRequests = () => {
 
                 {donations?.map((donation, index) => (
                     <Card key={index} sx={{ maxWidth: 300 }}>
-                        <div className='overflow-hidden d-flex justify-content-center align-items-center' style={{ height: '23rem' }}>
-                            <img src={donation.imageURL} className="card-img-top" alt="..." style={{ borderRadius: '6px', marginTop: '15px' }} />
+                        <div className='overflow-hidden d-flex justify-content-center align-items-center p-1' style={{ height: '23rem' }}>
+                            <img src={donation?.donationId?.imageUrl} className="card-img-top" alt="..." style={{ borderRadius: '6px', marginTop: '15px' }} />
                         </div>
                         <CardContent>
                             <Typography gutterBottom variant="h6">{donation?.donationId?.description}</Typography>
-                            <Typography variant="body2">Size - {donation?.donationId?.size}</Typography>
+                            <Typography variant="body2">Donor - {donation?.donorId?.name}</Typography>
                             <Typography variant="body2">Address - {donation?.address}</Typography>
+                            <Typography variant="body2">Status - {donation?.donationId?.status}</Typography>
                             <Button variant="contained" onClick={() => { DeleteById(donation._id) }}>Delete</Button>
                         </CardContent>
                     </Card>

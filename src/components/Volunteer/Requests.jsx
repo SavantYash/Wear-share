@@ -59,16 +59,13 @@ export const VolunteerRequests = () => {
                   {data?.map((d, index) => (
                       <Card key={index} sx={{ maxWidth: 300 }}>
                           <div className='overflow-hidden d-flex justify-content-center align-items-center' style={{ height: '23rem' }}>
-                              <img src={d.historyId?.imageURL} className="card-img-top" alt="..." style={{ borderRadius: '6px', marginTop: '15px' }} />
+                              <img src={d?.historyId?.imageUrl} className="card-img-top" alt="..." style={{ borderRadius: '6px', marginTop: '15px' }} />
                           </div>
                           <CardContent>
-                              <Typography gutterBottom variant="h5" component="div">
-                                  Description - {d?.description}
-                              </Typography>
                               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                                   <h4>From</h4>
                                   Name : {d?.historyId?.donorId?.name}<br/>
-                                  Address : {d?.historyId?.donorId?.address}
+                                  Address : {d?.historyId?.address}
                               </Typography><br/>
                               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                                   <h4>To</h4>

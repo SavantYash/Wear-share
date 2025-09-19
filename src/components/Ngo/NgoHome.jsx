@@ -25,7 +25,7 @@ export const NgoHome = () => {
   return (
     <>
       <ResponsiveAppBar data={data} toggleSidebar={toggleSidebar} data1={data1} user="user"/>
-      <Sidebar open={open} toggleSidebar={toggleSidebar} />
+      
       <Box sx={{ marginRight: open ? '240px' : '0', transition: 'margin 0.3s' }}>
         <Outlet />
       </Box>

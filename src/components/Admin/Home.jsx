@@ -20,7 +20,9 @@ export const AdminHome = () => {
     const data = [
         ['Dashboard','/admin'],
         ['Donors','donors'],
-        ['Ngos','ngos']
+        ['Ngos','ngos'],
+        ['Volunteers','volunteer'],
+        ['Donations','donations']
     ]
     
     const data1 = [

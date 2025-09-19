@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "../styles/Welcome.css"
-import { Box, Typography, Grid, Container, TextField, Button, IconButton, Stack } from '@mui/material';
+import { Box, Typography, Grid, Container, TextField, Button, IconButton, Stack, FormGroup } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Navbar } from './NavbarIndex';
 import base from "../assets/Images/Base.jpg"
@@ -18,11 +18,15 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { toast, ToastContainer, Bounce } from 'react-toastify';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 
 export const Welcome = () => {
 
     const [stats, setStat] = useState([])
+    const { register, handleSubmit, formState: { errors } } = useForm()
+    const [donationFlag, setdonationFlag] = useState(false)
 
 
     useEffect(() => {
@@ -44,6 +48,40 @@ export const Welcome = () => {
             },
         ])
     }, [])
+
+    const submithandler = async (data) => {
+        setdonationFlag(true)
+        const res = await axios.post("/sendquery", data)
+        if (res.status === 200) {
+            toast.success('Query sent! Admin will reach you', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+        }
+        setdonationFlag(false)
+    }
+
+    const validation = {
+        name: {
+            required: "*"
+        },
+        email: {
+            required: "*"
+        },
+        subject: {
+            required: "*"
+        },
+        message: {
+            required: "*"
+        },
+    }
 
 
     const contacts = [
@@ -231,52 +269,60 @@ export const Welcome = () => {
                             <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center' }}>
                                 Get in touch
                             </Typography>
+                            <form onSubmit={handleSubmit(submithandler)}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: { xs: 'column', md: 'row' },
+                                        alignItems: 'center',
+                                        gap: 4,
+                                        mt: 4
+                                    }}
+                                >
+                                    <Grid sx={{ flex: 1 }} >
+                                        <Grid container spacing={2}>
 
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: { xs: 'column', md: 'row' },
-                                    alignItems: 'center',
-                                    gap: 4,
-                                    mt: 4
-                                }}
-                            >
-                                <Box sx={{ flex: 1 }}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField fullWidth label="Name" variant="outlined" />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField fullWidth label="Email" variant="outlined" />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <TextField fullWidth label="Subject" variant="outlined" />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                label="Message"
-                                                multiline
-                                                rows={4}
-                                                variant="outlined"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                                            <Button variant="contained" sx={{ backgroundColor: '#00BCD4', px: 4 }}>
-                                                Send Message
-                                            </Button>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField fullWidth label="Name" variant="outlined" {...register("name",validation.name)} />
+                                                <span style={{ color: 'red' }}>{errors.name?.message}</span>
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField fullWidth label="Email" variant="outlined" {...register("email",validation.email)} />
+                                                <span style={{ color: 'red' }}>{errors.email?.message}</span>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextField fullWidth label="Subject" variant="outlined" {...register("subject",validation.subject)} />
+                                                <span style={{ color: 'red' }}>{errors.subject?.message}</span>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="Message"
+                                                    multiline
+                                                    rows={4}
+                                                    variant="outlined"
+                                                    {...register("message",validation.message)}
+                                                />
+                                                <span style={{ color: 'red' }}>{errors.message?.message}</span>
+                                            </Grid>
+                                            <Grid item xs={12} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+                                                <Button variant="contained" sx={{ backgroundColor: '#00BCD4', px: 4 }} type="submit" disabled={donationFlag}>
+                                                {donationFlag ? 'Processing...' : 'Send message'}
+                                                </Button>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
-                                </Box>
 
-                                <Box sx={{ flex: 1, textAlign: 'center' }}>
-                                    <img
-                                        src={jar}
-                                        alt="Thanks for your donations"
-                                        style={{ maxWidth: '100%', width: '320px' }}
-                                    />
+
+                                    <Box sx={{ flex: 1, textAlign: 'center' }}>
+                                        <img
+                                            src={jar}
+                                            alt="Thanks for your donations"
+                                            style={{ maxWidth: '100%', width: '320px' }}
+                                        />
+                                    </Box>
                                 </Box>
-                            </Box>
+                            </form>
                         </Container>
                     </Box>
                 </Box>

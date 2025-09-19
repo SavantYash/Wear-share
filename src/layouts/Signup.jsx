@@ -21,10 +21,10 @@ const SignUp = () => {
     const submitHandler = async (data) => {
         setregisterFlag(true)
         data.role = userSelection === "donor"
-            ? "67bd4b283f21fec783f8bb4e"
+            ? "68471b5a4b2efe6b3fc98255"
             : userSelection === "ngo"
-                ? "67bd4b3d3f21fec783f8bb50"
-                : "67edb26c77edf64f666aeab1";
+                ? "68471b5a4b2efe6b3fc98256"
+                : "68471b5a4b2efe6b3fc98257";
 
         data.roleName = userSelection === "donor"
             ? "donor"
