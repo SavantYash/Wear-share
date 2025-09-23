@@ -33,3 +33,9 @@ export const put = async (url,body={},config={}) => {
         await axiosInstance.put(url,body,config)
     )
 }
+
+export const del = async (url,id) => {
+    return axioshelper(
+        await axiosInstance.delete(url,{id})
+    )
+}
