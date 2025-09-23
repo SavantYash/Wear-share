@@ -27,3 +27,9 @@ export const post = async (url, body={},config={}) => {
         await axiosInstance.post(url, body, config)
     )
 }
+
+export const put = async (url,body={},config={}) => {
+    return axioshelper(
+        await axiosInstance.put(url,body,config)
+    )
+}
